@@ -1,5 +1,5 @@
-bind = "0.0.0.0:8000"
-workers = 5
+bind = "0.0.0.0:8090"
+workers = 2
 logfile = "/home/nyam/study/qa_django/gunicorn.log"
 loglevel = "info"
 proc_name = "blog"
