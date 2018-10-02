@@ -1,0 +1,9 @@
+{% if popular_question_list %}
+    <ul>
+    {% for question in popular_question_list %}
+        <li><a href="{% url 'qa:get_question_by_id' question.id %}">{{ question.text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No popular questions are available.</p>
+{% endif %}
