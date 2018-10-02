@@ -1,11 +1,19 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
 
 from .models import Question
 
 
 def latest_questions(request):
     latest_question_list = Question.objects.new()
-    context = {'latest_question_list': latest_question_list}
+    limit = 5
+    page = request.GET.get('page', 1)
+    paginator = Paginator(latest_question_list, limit)
+    paginator.baseurl = '/?page='
+    page = paginator.page(page)
+    context = {'latest_question_list': page,
+               'paginator': paginator,
+               'page': page}
     return render(request, 'qa/index.html', context)
 
 
