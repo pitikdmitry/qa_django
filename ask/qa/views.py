@@ -19,7 +19,14 @@ def latest_questions(request):
 
 def popular_questions(request):
     popular_question_list = Question.objects.popular()
-    context = {'popular_question_list': popular_question_list}
+    limit = 5
+    page = request.GET.get('page', 1)
+    paginator = Paginator(popular_question_list, limit)
+    paginator.baseurl = '/?page='
+    page = paginator.page(page)
+    context = {'popular_question_list': page,
+               'paginator': paginator,
+               'page': page}
     return render(request, 'qa/popular.html', context)
 
 

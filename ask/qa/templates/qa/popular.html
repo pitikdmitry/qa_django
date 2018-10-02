@@ -1,9 +1,38 @@
+{% load static %}
+<html>
+    <head>
+        <title>last questions</title>
+    </head>
+    <body>
+        <link rel="stylesheet" href="{% static 'main.css' %}">
+    </body>
+</html>
+
 {% if popular_question_list %}
-    <ul>
+<ul class="questions-list">
     {% for question in popular_question_list %}
-        <li><a href="{% url 'qa:get_question_by_id' question.id %}">{{ question.text }}</a></li>
+    <li><a href="{% url 'qa:get_question_by_id' question.id %}">
+        <div id="question-div">
+            {{ question.text }}
+        </div>
+    </a></li>
+
     {% endfor %}
-    </ul>
+</ul>
 {% else %}
-    <p>No popular questions are available.</p>
+<p>No latest questions are available.</p>
 {% endif %}
+
+<nav>
+    <ul class="pagination">
+        {% for p in paginator.page_range %}
+        {% if p.number == page.number %}
+        <li class="active">
+            {% else %}
+        <li>
+            {% endif %}
+            <a href="{{ paginator.baseurl }}{{ p }}">{{ p }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
