@@ -1,0 +1,10 @@
+body {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.answer {
+    border: 3px solid grey;
+    margin: 10px;
+    border-radius: 5px;
+}

@@ -1,5 +1,30 @@
+{% load static %}
+<html>
+<head>
+    <title>{{question.title}}</title>
+    <link rel="stylesheet" href="{% static 'question.css' %}">
+</head>
+<body>
+
 <h1>{{question.title}}</h1>
 <p>{{question.text}}</p>
 <p>{{question.added_at}}</p>
 <p>{{question.rating}}</p>
 <p>{{question.author}}</p>
+
+<div >
+    {% for answer in answers %}
+    <div class="answer">
+        <h3>{{ answer.text }}</h3>
+        <h5>{{ answer.question }}</h5>
+    </div>
+    {% endfor %}
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

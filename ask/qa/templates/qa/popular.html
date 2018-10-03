@@ -1,13 +1,10 @@
 {% load static %}
 <html>
-    <head>
-        <title>last questions</title>
-    </head>
-    <body>
-        <link rel="stylesheet" href="{% static 'main.css' %}">
-    </body>
-</html>
-
+<head>
+    <title>last questions</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+</head>
+<body>
 {% if popular_question_list %}
 <ul class="questions-list">
     {% for question in popular_question_list %}
@@ -36,3 +33,7 @@
         {% endfor %}
     </ul>
 </nav>
+</body>
+</html>
+
+

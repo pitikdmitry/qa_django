@@ -1,6 +1,8 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 
+from .forms import AskForm, AnswerForm
 from .models import Question
 
 
@@ -31,10 +33,35 @@ def popular_questions(request):
 
 
 def get_question_by_id(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    context = {'question': question}
-    return render(request, 'qa/question.html', context)
+    context = {}
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save()
+            url = Question.get_url(question_id)
+            return HttpResponseRedirect(url)
+    else:
+        question = get_object_or_404(Question, pk=question_id)
+        context['question'] = question
+        context['answers'] = question.answer_set.all()
+        form = AnswerForm()
+        form.fields.get('question').queryset = Question.objects.filter(pk=question_id)
+        context['form'] = form
+        return render(request, 'qa/question.html', context)
 
 
 def index():
     pass
+
+
+def add_question(request):
+    if request.method == 'POST':
+        form = AskForm(request.POST)
+        if form.is_valid():
+            question = form.save()
+            url = Question.get_url(question.id)
+            return HttpResponseRedirect(url)
+    else:
+        form = AskForm()
+        context = {'form': form}
+        return render(request, 'qa/question_form.html', context)

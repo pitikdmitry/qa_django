@@ -2,37 +2,36 @@
 <html>
     <head>
         <title>last questions</title>
+        <link rel="stylesheet" href="{% static 'main.css' %}">
     </head>
     <body>
-        <link rel="stylesheet" href="{% static 'main.css' %}">
+        {% if latest_question_list %}
+        <ul class="questions-list">
+            {% for question in latest_question_list %}
+            <li><a href="{% url 'qa:get_question_by_id' question.id %}">
+                <div id="question-div">
+                    {{ question.text }}
+                </div>
+            </a></li>
+
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No latest questions are available.</p>
+        {% endif %}
+
+        <nav>
+            <ul class="pagination">
+                {% for p in paginator.page_range %}
+                {% if p.number == page.number %}
+                <li class="active">
+                    {% else %}
+                <li>
+                    {% endif %}
+                    <a href="{{ paginator.baseurl }}{{ p }}">{{ p }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </nav>
     </body>
 </html>
-
-{% if latest_question_list %}
-<ul class="questions-list">
-    {% for question in latest_question_list %}
-    <li><a href="{% url 'qa:get_question_by_id' question.id %}">
-        <div id="question-div">
-            {{ question.text }}
-        </div>
-    </a></li>
-
-    {% endfor %}
-</ul>
-{% else %}
-<p>No latest questions are available.</p>
-{% endif %}
-
-<nav>
-    <ul class="pagination">
-        {% for p in paginator.page_range %}
-        {% if p.number == page.number %}
-        <li class="active">
-            {% else %}
-        <li>
-            {% endif %}
-            <a href="{{ paginator.baseurl }}{{ p }}">{{ p }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-</nav>
